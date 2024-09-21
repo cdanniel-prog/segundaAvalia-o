@@ -14,7 +14,6 @@ typedef struct {
     int totalUsuarios;
 } Banco;
 
-// Declarações das funções
 void exibirBoasVindas();
 void encerrarPrograma();
 Banco* criarBanco();

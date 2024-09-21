@@ -5,8 +5,6 @@
 #include <conio.h>
 #include<locale.h>
 
-
-// Função para exibir mensagem de boas-vindas
 void exibirBoasVindas() {
     printf(" =================================\n");
     printf(" Bem-vindo ao Banco Digital CDBank\n");
@@ -22,7 +20,6 @@ void sair(Banco *banco, const char *nomeArquivo){
     printf("Memória liberada. Programa enceerrado.\n");
 }
 
-// Função para encerrar o programa
 void encerrarPrograma(Banco *banco, const char *nomeArquivo){
     salvarUsuarios(banco, nomeArquivo);
     printf("\n===========================================\n");
@@ -32,7 +29,6 @@ void encerrarPrograma(Banco *banco, const char *nomeArquivo){
     exit(0);
 }
 
-// Função para criar um novo banco
 Banco* criarBanco() {
     Banco *banco = (Banco*) malloc(sizeof(Banco));
     if (!banco) {
@@ -44,7 +40,6 @@ Banco* criarBanco() {
     return banco;
 }
 
-// Função para carregar usuários de um arquivo
 void carregarUsuarios(Banco *banco, const char *nomeArquivo) {
     FILE *arquivo = fopen(nomeArquivo, "r");
     if (arquivo == NULL) {
@@ -74,7 +69,6 @@ void carregarUsuarios(Banco *banco, const char *nomeArquivo) {
     quicksortUsuarioPorNome(banco->usuarios, 0, banco->totalUsuarios - 1);
 }
 
-// Função para salvar usuários em um arquivo
 void salvarUsuarios(Banco *banco, const char *nomeArquivo) {
     FILE *arquivo = fopen(nomeArquivo, "w");
     if (arquivo != NULL) {
@@ -96,7 +90,6 @@ void salvarUsuarios(Banco *banco, const char *nomeArquivo) {
     }
 }
 
-// Função para cadastrar um novo usuário
 void cadastrarUsuario(Banco *banco, const char *nomeArquivo) {
     if (banco->totalUsuarios >= QUANTIDADE_USUARIOS) {
         printf("Erro: Limite de usuários alcançado!\n");
@@ -131,7 +124,6 @@ void cadastrarUsuario(Banco *banco, const char *nomeArquivo) {
     salvarUsuarios(banco, nomeArquivo);
 }
 
-//Função para listar todos os usuários cadastrados
 void listarUsuarios(Banco *banco){
     if(banco->totalUsuarios == 0){
         printf("Nenhum usuário cadastrado.\n");
@@ -146,7 +138,6 @@ void listarUsuarios(Banco *banco){
     printf("\n");
 }
 
-//Função para editar um usuário
 void editarUsuario(Banco *banco, const char *nomeArquivo){
     listarUsuarios(banco);
     int indice;
@@ -168,7 +159,6 @@ void editarUsuario(Banco *banco, const char *nomeArquivo){
         printf("Digite a nova senha: ");
         capturarSenha(usuario->senha);
 
-        // salvarUsuarios(banco, nomeArquivo);
         printf("Usuário editado com sucesso!\n\n");
     } else {
         printf("Erro: Índice inválido!\n\n");
@@ -177,7 +167,6 @@ void editarUsuario(Banco *banco, const char *nomeArquivo){
     salvarUsuarios(banco, nomeArquivo);
 }
 
-//Função para excluir um usuário
 void excluirUsuario(Banco *banco, const char *nomeArquivo){
     int indice;
     listarUsuarios(banco);        
@@ -193,7 +182,6 @@ void excluirUsuario(Banco *banco, const char *nomeArquivo){
         }
         
         banco -> totalUsuarios--;
-        // salvarUsuarios(banco, nomeArquivo);
         printf("Usuário excluído com sucesso!\n\n");
     } else {
         printf("Erro: Índice inválido!\n\n");
@@ -202,7 +190,6 @@ void excluirUsuario(Banco *banco, const char *nomeArquivo){
     salvarUsuarios(banco, nomeArquivo);
 }
 
-//Função para realizar login do usuário
 int realizarLogin(Banco *banco) {
     char email[80];
     char senha[20];
@@ -223,12 +210,10 @@ int realizarLogin(Banco *banco) {
     return -1;
 }
 
-//Função para acessar o menu de um usuário cadastrado
 void acessarMenuCadastrado(Banco *banco, int usuarioID){
     menuUsuario(banco, usuarioID);
 }
 
-//Menu para usuários não cadastrados
 void menuNaoCadastrado(Banco *banco){
     const char *nomeArquivo = "usuarios.txt";
     int opcao;
@@ -268,7 +253,6 @@ void menuNaoCadastrado(Banco *banco){
     } 
 }
 
-//Menu para usuários cadastrados
 void menuUsuario(Banco *banco, int usuarioID){
     const char *nomeArquivo = "usuarios.txt";
     int opcao;
@@ -312,16 +296,13 @@ void menuUsuario(Banco *banco, int usuarioID){
     } 
 }
 
-//Função para validar o email
 int validarEmail(Banco *banco, const char *email, int indiceUsuarioAtual){
     
-    //Verifica se o email contém '@'
     if(strchr(email, '@') == NULL){
         printf("Erro: Email inválido, deve conter '@'!\n");
         return 0;
     }
 
-    //Verifica se o email já está cadastrado, ignorando o próprio email do usuário atual
     for (int i = 0; i < banco -> totalUsuarios; i++){
         if (i != indiceUsuarioAtual && strcmp (banco->usuarios[i]->email, email) == 0){
             printf("Erro: Email já cadastrado!\n");
@@ -331,7 +312,6 @@ int validarEmail(Banco *banco, const char *email, int indiceUsuarioAtual){
     return 1;
 }
 
-//Função para capturar senha com asteriscos
 void capturarSenha(char *senha){
     char ch;
     int i = 0;
@@ -353,7 +333,6 @@ void capturarSenha(char *senha){
     printf("\n");
 }
 
-//Função Quicksort Recursiva
 void quicksortUsuarioPorNome(Usuario **usuarios, int inicio, int fim){
     if(inicio < fim){
         int indicePivo = particionarPorNome(usuarios, inicio, fim);
@@ -363,19 +342,16 @@ void quicksortUsuarioPorNome(Usuario **usuarios, int inicio, int fim){
     }
 }
 
-//Função para Ordenar usuários por Nome
 void ordenarUsuarioPorNome(Banco *banco){
     quicksortUsuarioPorNome(banco->usuarios, 0, banco->totalUsuarios - 1);
 }
 
-//Função de troca
 void trocar(Usuario **a, Usuario **b){
     Usuario *temp = *a;
     *a = *b;
     *b = temp;
 }
 
-//Particiona o array para o Quicksort
 int particionarPorNome(Usuario **usuarios, int inicio, int fim){
     Usuario *pivo = usuarios[fim];
     int i = inicio - 1;
@@ -390,7 +366,6 @@ int particionarPorNome(Usuario **usuarios, int inicio, int fim){
     return i + 1;
 } 
 
-//Função para Buscar um usuário por Email
 void buscarUsuarioPorEmailComQuicksort(Banco *banco){
     if (banco->totalUsuarios == 0){
         printf("Nenhum usuário cadastrado.\n");
@@ -414,7 +389,6 @@ void buscarUsuarioPorEmailComQuicksort(Banco *banco){
     }
 }
 
-//Função de Busca Binária Recursiva
 int buscaBinariaRecursiva(Banco *banco, const char *email, int inicio, int fim){
     if (inicio > fim){
         return -1;
@@ -432,7 +406,6 @@ int buscaBinariaRecursiva(Banco *banco, const char *email, int inicio, int fim){
     }
 }
 
-//Função para solicitar um número float
 float solicitarValorPositivo(){
     float valor;
     int resultado;
@@ -448,7 +421,6 @@ float solicitarValorPositivo(){
     }
 }
 
-//Função para solicitar apenas número inteiro 
 int solicitarOpcaoValida(int min, int max){
     int opcao;
     int resultado;      
@@ -464,12 +436,10 @@ int solicitarOpcaoValida(int min, int max){
     }
 }
 
-//Função para verificar o saldo
 void verificarSaldo(Banco *banco, int usuarioID){
     printf("Seu saldo é: R$ %.2f\n\n", banco->usuarios[usuarioID]->saldo);
 }
 
-//Função para realizar depósito
 void realizarDeposito(Banco *banco, int usuarioID, const char *nomeArquivo){
     printf("Digite o valor do depósito: R$ ");
     float valor = solicitarValorPositivo();
@@ -479,8 +449,6 @@ void realizarDeposito(Banco *banco, int usuarioID, const char *nomeArquivo){
     salvarUsuarios(banco, nomeArquivo);
 }
 
-
-//Função para realizar saque
 void realizarSaque(Banco *banco, int usuarioID, const char *nomeArquivo){
     printf("Digite o valor do saque: R$ ");
     float valor = solicitarValorPositivo();
@@ -494,7 +462,6 @@ void realizarSaque(Banco *banco, int usuarioID, const char *nomeArquivo){
     salvarUsuarios(banco, nomeArquivo);
 }
 
-//Função para alterar senha
 void alterarSenha(Banco *banco, int usuarioID, const char *nomeArquivo){
     printf("Digite sua nova senha: ");
     capturarSenha(banco -> usuarios[usuarioID]->senha);
@@ -503,7 +470,6 @@ void alterarSenha(Banco *banco, int usuarioID, const char *nomeArquivo){
     salvarUsuarios(banco, nomeArquivo);
 }
 
-//Função para transferir para outro usuário
 void realizarTransferencia(Banco *banco, int usuarioID, const char *nomeArquivo){
     int destinatarioID;
     listarUsuarios(banco);
