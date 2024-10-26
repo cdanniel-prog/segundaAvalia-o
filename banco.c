@@ -314,32 +314,38 @@ void menuNaoCadastrado(Banco *banco){
     int opcao;
     while(1){
         printf("Menu Principal\n");
-        printf("1. Cadastrar usuário\n");
-        printf("2. Listar usuários\n");
-        printf("3. Editar usuário\n");
-        printf("4. Excluir usuário\n");
-        printf("5. Tela Inicial\n");
-        printf("6. Sair do Banco\n");
+        printf("1. Login\n");
+        printf("2. Cadastrar usuário\n");
+        printf("3. Listar usuários\n");
+        printf("4. Editar usuário\n");
+        printf("5. Excluir usuário\n");
+        printf("6. Tela Inicial\n");
+        printf("7. Sair do Banco\n");
         printf("\nEscolha uma opção: ");
 
-        opcao = solicitarOpcaoValida(1, 6);
+        opcao = solicitarOpcaoValida(1, 7);
 
-        switch (opcao){     
+        switch (opcao){   
             case 1:
+                if(realizarLogin(banco) == 0){
+                printf("Erro: Falha no Login. Voltando ao menu principal.\n");
+                }
+                break;  
+            case 2:
                 cadastrarUsuario(banco, nomeArquivo);
                 break;
-            case 2: 
+            case 3: 
                 listarUsuarios(banco);
                 break;
-            case 3:
+            case 4:
                 editarUsuario(banco, nomeArquivo);
                 break;
-            case 4: 
+            case 5: 
                 excluirUsuario(banco, nomeArquivo);
                 break;
-            case 5:         
+            case 6:         
                 return;
-            case 6: 
+            case 7: 
                 encerrarPrograma(banco, nomeArquivo);
                 break;
             default:
@@ -437,112 +443,6 @@ void capturarSenha(char *senha){
     }
     printf("\n");
 }
-
-// void quicksortUsuarioPorNome(Usuario **usuarios, int inicio, int fim){
-//    if(inicio < fim){
-//         int indicePivo = particionarPorNome(usuarios, inicio, fim);
-//         quicksortUsuarioPorNome(usuarios, inicio, indicePivo - 1);
-//         quicksortUsuarioPorNome(usuarios, indicePivo + 1, fim);
-//     }
-// }
-
-// void ordenarUsuarioPorNome(Banco *banco){
-//     int total = banco->totalUsuarios;
-//     Usuario *atual = banco->usuarios;
-//     Usuario **arrayUsuarios = (Usuario **) malloc(total * sizeof(Usuario *));
-
-//     for(int i = 0; i < total && atual != NULL; i++){
-//         arrayUsuarios[i] = atual;
-//         atual = atual->prox;
-//     }
-//     quicksortUsuarioPorNome(arrayUsuarios, 0, total - 1);
-    
-//     banco->usuarios = arrayUsuarios[0];
-//     atual = banco->usuarios;
-//     for(int i = 1; i < total; i++){
-//         atual->prox = arrayUsuarios[i];
-//         atual = atual->prox;
-//     }
-//     atual->prox = NULL;
-//     free(arrayUsuarios);
-// }
-
-// void trocar(Usuario **a, Usuario **b){
-//     Usuario *temp = *a;
-//     *a = *b;
-//     *b = temp;
-// }
-
-// int particionarPorNome(Usuario **usuarios, int inicio, int fim){
-//     Usuario *pivo = usuarios[fim];
-//     int i = inicio - 1;
-    
-//     for(int j = inicio; j < fim; j++){
-//         if(strcasecmp(usuarios[j]->nome, pivo->nome) < 0){
-//             i++;
-//             trocar(&usuarios[i], &usuarios[j]);
-//         }
-//     }
-//     trocar(&usuarios[i + 1], &usuarios[fim]);
-//     return i + 1;
-// }
-
-// void buscarUsuarioPorEmailComQuicksort(Banco *banco){
-//     if (banco->totalUsuarios == 0){
-//         printf("Nenhum usuário cadastrado.\n");
-//         return;
-//     } 
-
-//     ordenarUsuarioPorNome(banco);
-
-//     char email[80];
-//     printf("Digite o email do usuário que deseja buscar: ");
-//     scanf("%s", email);
-
-//     int indice = buscaBinariaRecursiva(banco, email, 0, banco->totalUsuarios - 1);
-
-//     if(indice != -1){
-//         Usuario *usuario = banco->usuarios;
-//         int contador = 0;
-//         while(usuario != NULL && contador != indice){
-//             usuario = usuario->prox;
-//             contador++;
-//         }
-//         if(usuario != NULL){
-//             printf("Usuário encontrado:\n");
-//             printf("Nome: %s\nEmail: %s\nSaldo: R$%2f\n", usuario->nome, usuario->email, usuario->saldo);
-//         }
-//     } else{
-//         printf("Usuário com o email %s não encontrado.\n", email);
-//     }
-// }
-
-// int buscaBinariaRecursiva(Banco *banco, const char *email, int inicio, int fim){
-//     if (inicio > fim){
-//         return -1;
-//     }
-
-//     int meio = (inicio + fim) / 2;
-//     Usuario *usuario = banco->usuarios;
-//     int contador = 0;
-
-//     while(usuario != NULL && contador != meio){
-//         usuario = usuario->prox;
-//         contador++;
-//     }
-//     if(usuario == NULL){
-//         return -1;
-//     }
-
-//     int comparacao = strcmp(usuario->email, email);
-//     if(comparacao == 0) {
-//         return meio;
-//     } else if (comparacao < 0){
-//         return buscaBinariaRecursiva(banco, email, meio + 1, fim);
-//     } else {
-//         return buscaBinariaRecursiva(banco, email, inicio, meio -1);
-//     }
-// }
 
 float solicitarValorPositivo(){
     float valor;
