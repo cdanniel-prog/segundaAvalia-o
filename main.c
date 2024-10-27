@@ -30,7 +30,7 @@ int main() {
             if (usuarioID != -1) {
                 acessarMenuCadastrado(banco, usuarioID);
             } else {
-                printf("Tente novamente mais tarde.\n");
+                printf("\nTente novamente mais tarde.\n");
             }
         } else if (resposta == 2) {
             menuNaoCadastrado(banco);

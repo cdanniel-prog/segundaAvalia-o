@@ -1,2 +1,3 @@
-Nome: D | Email: @ | Senha: * | Saldo: 0,00
-Nome: A | Email: @@ | Senha: * | Saldo: 0,00
+Nome: @ | Email: @ | Senha: * | Saldo: 9998,00
+Nome: a | Email: @@ | Senha: * | Saldo: 1,00
+Nome: 1 | Email: @@@ | Senha: * | Saldo: 1,00

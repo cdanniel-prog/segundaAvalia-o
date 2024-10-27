@@ -289,20 +289,19 @@ int realizarLogin(Banco *banco) {
 
     if(strchr(email, '@') == NULL){
         printf("Erro: Email inválido! O email deve conter o caractere '@'.\n");
-        return 0;
+        return -1;
     }
 
     while(atual != NULL){
         if(strcmp(atual->email, email) == 0 && strcmp(atual->senha, senha) == 0){
             printf("Login realizado com sucesso! Bem-vindo, %s!\n\n", atual->nome);
-            acessarMenuCadastrado(banco, usuarioID);
-            return 1;
+            return usuarioID;
         }
         usuarioID++;
         atual = atual->prox;
     }
     printf("Email ou senha incorretos! Tente novamente.\n");
-    return 0;
+    return -1;
 }
 
 void acessarMenuCadastrado(Banco *banco, int usuarioID){
@@ -312,6 +311,8 @@ void acessarMenuCadastrado(Banco *banco, int usuarioID){
 void menuNaoCadastrado(Banco *banco){
     const char *nomeArquivo = "usuarios.txt";
     int opcao;
+    int tentativasLogin = 0;
+
     while(1){
         printf("Menu Principal\n");
         printf("1. Login\n");
@@ -326,12 +327,23 @@ void menuNaoCadastrado(Banco *banco){
         opcao = solicitarOpcaoValida(1, 7);
 
         switch (opcao){   
-            case 1:
-                if(realizarLogin(banco) == 0){
-                printf("Erro: Falha no Login. Voltando ao menu principal.\n");
+            case 1: {
+                if(tentativasLogin < 3){
+                    int usuarioID = realizarLogin(banco);
+                    if(usuarioID != -1){
+                    acessarMenuCadastrado(banco, usuarioID);
+                    tentativasLogin = 0;
+                    } else{
+                        tentativasLogin++;
+                        printf("Erro: Falha no Login. Tentativas restantes: %d\n", 3 - tentativasLogin);
+                    }
+                } else{
+                    printf("Número máximo de tentativas excedido. Obrigado por usar o Banco Digital CDBank. Tente novamente mais tarde.\n");
+                    return;
                 }
                 break;  
-            case 2:
+            }
+            case 2:                
                 cadastrarUsuario(banco, nomeArquivo);
                 break;
             case 3: 
